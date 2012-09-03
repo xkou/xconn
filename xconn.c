@@ -9,6 +9,11 @@
 #include <arpa/inet.h>
 #include <sys/epoll.h>
 #include <fcntl.h>
+#include <signal.h>
+
+void handle_sigint( int sig ){
+	
+}
 
 int main(int argc, char **argv){
 	char *server = argv[1];
@@ -31,6 +36,7 @@ int main(int argc, char **argv){
 	sprintf(buf, "U%05d", fport);
 	write(sock, buf, strlen(buf));
 	
+	signal(SIGINT, handle_sigint);
 	fcntl(sock, F_SETFL, (fcntl(sock, F_GETFL) | O_NONBLOCK) );
 
 	struct epoll_event stdinev;
